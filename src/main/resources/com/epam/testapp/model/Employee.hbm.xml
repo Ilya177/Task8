@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.epam.testapp.model.Employee" table="EMPLOYEE">
+		<id name="employeeId" type="long" column="EMPLOYEE_ID">
+			<generator class="native">
+				<param name="sequence">EMPLOYEE_SEQ</param>
+			</generator>
+		</id>
+		<property name="firstName" type="string">
+			<column name="FIRST_NAME" length="25" not-null="true" />
+		</property>
+		<property name="lastName" type="string">
+			<column name="LAST_NAME" length="25" not-null="true" />
+		</property>
+		<many-to-one name="address" fetch="join" column="ADDRESS_ID"
+			class="com.epam.testapp.model.Address" not-null="true" />
+		<set name="jobs" lazy="false" batch-size="100">
+			<key column="EMPLOYEE_ID" />
+			<one-to-many class="com.epam.testapp.model.Job" />
+		</set>
+	</class>
+	
+	<query name="Employee.findAll">
+		<![CDATA[from Employee order by employeeId]]>
+	</query>
+	
+	<query name="Employee.totalCountEmployees">
+		<![CDATA[select count(*) from Employee]]>
+	</query>	
+	
+</hibernate-mapping>

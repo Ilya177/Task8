@@ -1,0 +1,17 @@
+table {
+	margin: 0 auto;
+}
+
+table#employees {
+	margin-top: 20px;
+	width: 1000px;
+}
+
+th {
+	text-align: center;
+}
+
+td {
+	min-width: 100px;
+	vertical-align: top;
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.epam.testapp.model.Job" table="JOB">
+		<composite-id name="jobPK" class="com.epam.testapp.model.JobPK">
+			<key-property name="employeeId" type="long">
+				<column name="EMPLOYEE_ID" not-null="true" />
+			</key-property>
+			<key-property name="companyId" type="long">
+				<column name="COMPANY_ID" not-null="true" />
+			</key-property>
+			<key-property name="addressId" type="long">
+				<column name="ADDRESS_ID" not-null="true" />
+			</key-property>
+		</composite-id>
+		<many-to-one name="employee" fetch="join" class="com.epam.testapp.model.Employee"
+			update="false" insert="false">
+			<column name="EMPLOYEE_ID" not-null="true" />			
+		</many-to-one>
+		<many-to-one name="office" fetch="join" class="com.epam.testapp.model.Office"
+			update="false" insert="false">
+			<column name="COMPANY_ID" not-null="true" />
+			<column name="ADDRESS_ID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="position" fetch="join" class="com.epam.testapp.model.Position">
+			<column name="POSITION_ID" not-null="true" />
+		</many-to-one>
+	</class>
+</hibernate-mapping>

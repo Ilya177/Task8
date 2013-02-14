@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.epam.testapp.model.Office" table="OFFICE">
+		<composite-id name="officePK" class="com.epam.testapp.model.OfficePK">
+			<key-property name="companyId" type="long">
+				<column name="COMPANY_ID" not-null="true" />
+			</key-property>
+			<key-property name="addressId" type="long">
+				<column name="ADDRESS_ID" not-null="true"/>
+			</key-property>
+		</composite-id>
+		<many-to-one name="company" fetch="join" class="com.epam.testapp.model.Company"
+			update="false" insert="false">
+			<column name="COMPANY_ID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="address" fetch="join" class="com.epam.testapp.model.Address"
+			update="false" insert="false">
+			<column name="ADDRESS_ID" not-null="true" />
+		</many-to-one>
+		<property name="employeeCount" >
+			<formula>
+				(select
+					 count(job.employee_id)
+				 from
+					 office o
+				 join
+					 job
+						 on job.company_id = o.company_id
+						 and job.address_id = o.address_id
+				 where
+					 address_id = o.address_id)
+			</formula>
+		</property>	
+	</class>
+</hibernate-mapping>
